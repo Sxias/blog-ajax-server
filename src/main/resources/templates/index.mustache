@@ -55,6 +55,17 @@
         });
     }
 
+    async function deleteBoard(id) {
+        let response = await fetch("api/boards/" + id, {
+            method:"DELETE"
+        });
+        let responseBody = await response.json();
+
+        console.log(responseBody);
+
+        location.reload();
+    }
+
     init();
 </script>
 
