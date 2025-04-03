@@ -4,7 +4,7 @@
     <div class="card">
         <div class="card-header"><b>익명 글수정 화면입니다</b></div>
         <div class="card-body">
-            <form action="#">
+            <form>
                 <input type="hidden" id="boardId" value="{{boardId}}">
                 <div class="mb-3">
                     <input type="text" class="form-control" placeholder="Enter author" id="author">
@@ -15,7 +15,7 @@
                 <div class="mb-3">
                     <textarea class="form-control" rows="5" id="content"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary form-control">글수정완료</button>
+                <button type="button" onclick="updateBoard()" class="btn btn-primary form-control">글수정완료</button>
             </form>
         </div>
     </div>
@@ -27,6 +27,7 @@
 
     // 책임 : 통신
     async function init() {
+        console.log(boardId2);
         let response = await fetch("/api/boards/"+boardId2);
         let responseBody = await response.json();
 
@@ -39,7 +40,7 @@
         const cookies = document.cookie.split('; ');
         for (let cookie of cookies) {
             const [k, v] = cookie.split('=');
-            if (k === key) {
+            if (k == key) {
                 return v;
             }
         }
@@ -47,6 +48,25 @@
     }
 
     init();
+
+    async function updateBoard() {
+        let requestBody = {
+            author:document.querySelector("#author").value,
+            title:document.querySelector("#title").value,
+            content:document.querySelector("#content").value
+        };
+
+        let postResponse = await fetch("/api/boards/"+boardId2, {
+            method:"put",
+            body:JSON.stringify(requestBody),
+            headers:{"Content-Type" : "application/json"}
+        });
+
+        let postResponseBody = await postResponse.json();
+        console.log(postResponseBody);
+
+        location.href = "/";
+    }
 </script>
 
 {{> layout/footer}}
