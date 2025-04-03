@@ -28,7 +28,7 @@ public class BoardController {
         request.setAttribute("boardId", id);
         // 2. cookie
         Cookie cookie = new Cookie("boardId", id+"");
-        cookie.setHttpOnly(true);
+        // cookie.setHttpOnly(true);
         response.addCookie(cookie);
         // 응답의 헤더 -> Set-Cookie : boardId=5
 
